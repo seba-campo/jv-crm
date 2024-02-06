@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@vaadin/router": "^1.7.5",
+    "parcel": "^2.11.0"
+  },
+  "scripts": {
+    "dev": "parcel ./src/index.html -p 8080",
+    "build": "tsc",
+    "start": "node ./build/index.js"
+  }
+}
