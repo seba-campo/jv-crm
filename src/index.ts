@@ -5,6 +5,6 @@ import "./pages/login"
 import "./router"
 
 (() => {
-   console.log("Andando")
+
 })();
   

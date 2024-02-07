@@ -1,5 +1,9 @@
+import { API_URL } from "../state";
 import { Router } from "@vaadin/router";
 import { state, deployState } from "../state";
+import * as crypto from "crypto-browserify";
+
+
 
 class Login extends HTMLElement{
     shadow = this.attachShadow({mode: "open"});
@@ -28,12 +32,17 @@ class Login extends HTMLElement{
                             <input class="input" id="email" type="text" placeholder="email" default='${lsMail}'>
                             <input class="input" id="password" type="password" placeholder="">
                         </div>
-
+                        
+                        
                         <div class="login-form__submit">
                             <button class="submit">INGRESAR</button>
                         </div>
                     </form>
-
+                        
+                    <div class="error-msj">
+                        <p class="error-p">Usuario o contraseña incorrectos</p>
+                    </div>
+                    
                     <div>
                         <label for="remember-check">Recordar Mail</label>
                         <input type="checkbox" name="remember-check">
@@ -69,8 +78,9 @@ class Login extends HTMLElement{
 
             .login-p{
                 color: #FAFAFA;
-                font-size: 30px;
+                font-size: 40px;
                 font-weight: 600;
+                margin: 10px 0;
             }
 
             .login-form{
@@ -96,13 +106,14 @@ class Login extends HTMLElement{
             }
             
             .input {
-                font-size: 18px;
+                font-size: 16px;
                 width: 55vw;
                 padding: 5px 10px;
                 outline: none;
                 background: #142101;
                 color: #F5F5F5;
                 border-radius: 2px;
+                font-family: 'Roboto', sans-serif;
             }
           
             .input::placeholder {
@@ -131,11 +142,48 @@ class Login extends HTMLElement{
                 transform: scale(0.95);
             }
 
+            .error-msj{
+                display: none;
+                background-color: #2B003B;
+                padding: 0 4px;
+                height: 30px;
+                border-radius: 6px;
+                justify-content: center;
+                align-items: center;
+                transition: .3s ease;
+            }
+
+            .error-p{
+                font-size: 17px;
+                margin: 0 5px;
+                font-weight: 600;
+                color: #FF341C;
+                text-align: center;
+            }
         `
-
-        // const 
-
         
+        const formEl = div.querySelector(".login-form");
+
+        formEl.addEventListener("submit", async (e)=>{
+            e.preventDefault();
+            const errorEl = div.querySelector(".error-msj") as HTMLElement;
+
+            const emailEl = div.querySelector("#email") as HTMLInputElement;
+            const passwordEl = div.querySelector("#password") as HTMLInputElement;
+            const passowrdHashed = crypto.createHash('sha256').update(passwordEl.value).digest('hex')
+
+            try{
+                errorEl.style.display = "none";
+                await state.authUser(emailEl.value, passowrdHashed);
+                console.log("Usuario logueado correctamente");
+            }
+            catch(e){
+                errorEl.style.display = "flex";
+            }
+        });
+
+        // Validar que tipo de user es y mover a la proxima ruta
+        const currentState = 
 
         div.appendChild(style)
         this.shadow.appendChild(div);

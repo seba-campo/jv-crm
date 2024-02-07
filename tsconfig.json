@@ -3,5 +3,10 @@
       "module": "Node16",
       "target": "ESNext",
       "esModuleInterop": false,
+    },
+    "paths": {
+      "crypto": [
+        "node_modules/crypto-js"
+      ]
     }
 }
