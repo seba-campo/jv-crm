@@ -54,6 +54,7 @@ export const state = {
             type: tokenDecoded.type
         }))
         // Se setea en state
+        this.setUserType(tokenDecoded.type);
     },
     subscribe(callback: (any) => any) {
         // recibe callbacks para ser avisados posteriormente
@@ -72,6 +73,6 @@ export const state = {
     setUserType(newUserType: string){
         const cs = this.getState();
         cs.userType = newUserType;
-        this.setState();
+        this.setState(cs);
     }
 };

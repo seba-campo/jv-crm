@@ -27,8 +27,7 @@ if(cs.deployed){
 if(!cs.deployed){
   router.setRoutes([
     {path: '/', component: 'login-page'},
-    {path: '/game-room', component: 'game-room-page'},
-    {path: '/game', component: 'play-page'},
-    {path: '/results', component: 'results-page'}
+    {path: '/cliente', component: 'cliente-page'},
+    {path: '/empresa', component: 'empresa-page'}
   ]);
 }

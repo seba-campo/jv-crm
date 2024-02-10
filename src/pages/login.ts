@@ -75,6 +75,11 @@ class Login extends HTMLElement{
                 -webkit-box-shadow: 5px 15px 19px -5px rgba(0,0,0,0.41);
                 -moz-box-shadow: 5px 15px 19px -5px rgba(0,0,0,0.41);
             }
+            @media(min-width:440px){
+                .login-box{
+                    width: 350px;
+                }
+            }
 
             .login-p{
                 color: #FAFAFA;
@@ -98,7 +103,12 @@ class Login extends HTMLElement{
                 height: 130px;
                 width: 60vw; 
             }
-
+            @media(min-width:440px){
+                .inputs-div{
+                    width: 350px;
+                    align-items: center
+                }
+            }
             .custom_input {
                 display: flex;
                 align-items: center;
@@ -114,6 +124,11 @@ class Login extends HTMLElement{
                 color: #F5F5F5;
                 border-radius: 2px;
                 font-family: 'Roboto', sans-serif;
+            }
+            @media(min-width:440px){
+                .input{
+                    width: 250px;
+                }
             }
           
             .input::placeholder {
@@ -134,6 +149,11 @@ class Login extends HTMLElement{
                 border: 0px solid #000;
                 border-radius: 5px;
                 display: inline-block;
+            }
+            @media(min-width:440px){
+                .submit{
+                    width: 270px;
+                }
             }
             .submit:hover{
                 background-color: #eaeaea;
@@ -175,15 +195,20 @@ class Login extends HTMLElement{
             try{
                 errorEl.style.display = "none";
                 await state.authUser(emailEl.value, passowrdHashed);
-                console.log("Usuario logueado correctamente");
+                const currentState = state.getState();
+                switch(currentState.userType){
+                    case "user":
+                        Router.go("/cliente");
+                        break
+                    case "admin":
+                        Router.go("/empresa");
+                        break
+                }
             }
             catch(e){
                 errorEl.style.display = "flex";
             }
         });
-
-        // Validar que tipo de user es y mover a la proxima ruta
-        const currentState = 
 
         div.appendChild(style)
         this.shadow.appendChild(div);
