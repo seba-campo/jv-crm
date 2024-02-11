@@ -54,10 +54,22 @@ export const state = {
         })
     },
 
-    async addHorse(newHorseData: horse){
+    async getAllHorses(){
+        return fetch(API_URL+"/caballos",{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json"
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        })
+    },
+    async addHorse(newHorseData: Horse){
 
-    }
-
+    },
     decodeToken(token: any){
         const tokenDecoded = jwt.decode(token) as any
         // Se setea en el LS

@@ -21,7 +21,7 @@ class AdminMainComponent extends HTMLElement{
         
         const userName = "Karina"
 
-        div.innerHTML = `
+        div.innerHTML = /*html*/`
         <div class="root">
             <div class="admin-bar-root">
                 <div class="bar-header">
@@ -35,16 +35,16 @@ class AdminMainComponent extends HTMLElement{
                             <p>></p>                          
                         </div>
                         <div class="caballos-options extras">
-                            <div class>
+                            <div class="crear-caballo">
                                 <p>Agregar caballo</p>
                             </div>
-                            <div>
+                            <div class="caballos-activos">
                                 <p>Caballos activos</p>
                             </div>
-                            <div>
+                            <div class="caballos-inactivos">
                                 <p>Caballos inactivos</p>
                             </div>
-                            <div>
+                            <div class="all-horses">
                                 <p>Todos los registros</p>
                             </div>
                         </div>
@@ -98,7 +98,7 @@ class AdminMainComponent extends HTMLElement{
         </div>
         `
         
-        style.textContent = `
+        style.textContent = /*css*/`
         .root{
             display: flex;
             font-family: 'Assistant', sans-serif;
@@ -155,6 +155,8 @@ class AdminMainComponent extends HTMLElement{
         const caballosOption = div.querySelector(".caballos") as HTMLDivElement;
         const clientesOption = div.querySelector(".clientes") as HTMLDivElement;
         const serviciosOption = div.querySelector(".servicios") as HTMLDivElement;
+
+        const mainContainer = div.querySelector(".main-container") as HTMLDivElement
         
 
         // Subopciones de cada menu
@@ -191,6 +193,31 @@ class AdminMainComponent extends HTMLElement{
             extraOptionsCaballos.style.display = "none";
             extraOptionsClientes.style.display = "none";
             extraOptionsServicios.style.display = "block";
+        })
+
+
+        //CREAR CABALLO
+        const crearCaballoDiv = div.querySelector(".crear-caballo");
+        crearCaballoDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<create-horse></create-horse>';
+        })
+
+        //CABALLOS ACTIVOS
+        const caballosActivosDiv = div.querySelector(".caballos-activos");
+        caballosActivosDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<active-horses></active-horses>';
+        })
+
+        //CABALLOS INACTIVOS
+        const caballosInactivosDiv = div.querySelector(".caballos-inactivos");
+        caballosInactivosDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<unactive-horses></unactive-horses>';
+        })
+        
+        //TODOS LOS CABALLOS
+        const allCaballosDiv = div.querySelector(".all-horses");
+        allCaballosDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<all-horses></all-horses>';
         })
 
 
