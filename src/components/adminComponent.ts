@@ -28,15 +28,14 @@ class AdminMainComponent extends HTMLElement{
                     <p>Hola ${userName}</p>
                 </div>
                 
-
                 <div class="bar-options">
                     <div class="option caballos" id="0">
                         <div class="option-wrapper">
                             <p>Caballos</p>
-                            <p>></p>
+                            <p>></p>                          
                         </div>
                         <div class="caballos-options extras">
-                            <div>
+                            <div class>
                                 <p>Agregar caballo</p>
                             </div>
                             <div>
@@ -118,6 +117,13 @@ class AdminMainComponent extends HTMLElement{
             height: 100vh;
         }
 
+        .bar-header{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0 35px 0;
+        }
+
         .option-wrapper{
             display: flex;
             justify-content: space-between;
@@ -126,57 +132,71 @@ class AdminMainComponent extends HTMLElement{
         .option{
             background-color: transparent;
             border-radius: 0 10px 10px 0;
-            margin-right: 15px;
-            padding: 0 15px 0 15px;
+            margin: 5px 15px 5px 0;
+            padding: 0 15px 10px 15px;
             font-size: 16px;
             font-weight: 800;
+            transition: 0.3s linear
+
         }
         
         .option-selected{
-            background-color: #3498db; 
-            color: #fff
+            background-color: #5C9902; 
+            color: #fff;
         }
 
         .extras{
-            display: none
+            display: none;
+            font-weight: 500;
+            cursor: pointer
         }
         `
 
         const caballosOption = div.querySelector(".caballos") as HTMLDivElement;
         const clientesOption = div.querySelector(".clientes") as HTMLDivElement;
         const serviciosOption = div.querySelector(".servicios") as HTMLDivElement;
+        
 
+        // Subopciones de cada menu
+        const extraOptionsCaballos = div.querySelector(".caballos-options") as HTMLDivElement
+        const extraOptionsClientes = div.querySelector(".clientes-options") as HTMLDivElement
+        const extraOptionsServicios = div.querySelector(".servicios-options") as HTMLDivElement
         const optionsBar =  div.querySelector(".bar-options") as HTMLDivElement;
 
         caballosOption.addEventListener("click", ()=>{
-            this.selectOption(caballosOption, optionsBar)
+            caballosOption.classList.add("option-selected");
+            clientesOption.classList.remove("option-selected");
+            serviciosOption.classList.remove("option-selected");
+            // MOSTRAR LAS OTRAS OPCIONES
+            extraOptionsCaballos.style.display = "block";
+            extraOptionsClientes.style.display = "none";
+            extraOptionsServicios.style.display = "none";
+            // CAMBIAR EL AFTER
+
         })
         clientesOption.addEventListener("click", ()=>{
-            this.selectOption(clientesOption, optionsBar)
+            caballosOption.classList.remove("option-selected");
+            clientesOption.classList.add("option-selected");
+            serviciosOption.classList.remove("option-selected");
+            // MOSTRAR LAS OTRAS OPCIONES
+            extraOptionsCaballos.style.display = "none";
+            extraOptionsClientes.style.display = "block";
+            extraOptionsServicios.style.display = "none";
         })
         serviciosOption.addEventListener("click", ()=>{
-            this.selectOption(serviciosOption, optionsBar)
+            caballosOption.classList.remove("option-selected");
+            clientesOption.classList.remove("option-selected");
+            serviciosOption.classList.add("option-selected");
+            // MOSTRAR LAS OTRAS OPCIONES
+            extraOptionsCaballos.style.display = "none";
+            extraOptionsClientes.style.display = "none";
+            extraOptionsServicios.style.display = "block";
         })
+
 
 
         div.appendChild(style)
         this.shadow.appendChild(div);
-    }
-    selectOption(o: HTMLDivElement, d: HTMLElement){
-        const caballosOption = d.querySelector(".caballos") as HTMLDivElement;
-        const clientesOption = d.querySelector(".clientes") as HTMLDivElement;
-        const serviciosOption = d.querySelector(".servicios") as HTMLDivElement;
-
-        const objetiveClassString = o.className.toString();
-        const objetiveClass = objetiveClassString.split(" ")[1];
-
-        switch(objetiveClass){
-            case "caballos":
-                caballosOption.classList.add("option-selected");
-                clientesOption.classList.remove("option-selected")
-                serviciosOption.classList.remove("option-selected")
-        }
-
     }
 }
 

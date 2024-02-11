@@ -1,7 +1,15 @@
 import * as jwt from "jsonwebtoken"
 
-
 export const API_URL = process.env.PROD_API_URL;
+
+type Horse = {
+    "nombre": string,
+    "pelaje": string,
+    "idPropietario": number,
+    "libreta": boolean,
+    "abono": string,
+    "obs": string
+}
 
 export const deployState = {
     data:{
@@ -46,7 +54,11 @@ export const state = {
         })
     },
 
-    decodeToken(token){
+    async addHorse(newHorseData: horse){
+
+    }
+
+    decodeToken(token: any){
         const tokenDecoded = jwt.decode(token) as any
         // Se setea en el LS
         localStorage.setItem("userData", JSON.stringify({
