@@ -1,7 +1,7 @@
 import * as jwt from "jsonwebtoken"
-// process.env.PROD_API_URL
+// "https://jvcrm-prod.up.railway.app"
 
-export const API_URL = "https://jvcrm-prod.up.railway.app";
+export const API_URL = process.env.PROD_API_URL;
 
 type Horse = {
     "nombre": string,

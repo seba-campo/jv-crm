@@ -21,9 +21,7 @@ class AllHorses extends HTMLElement{
         div.innerHTML = /*html*/`
             <div class="root">
 
-                <div class="div-title">
-                    <p class="p-title">Todos los Caballos</p>
-                </div>
+                <div class="root-title"><page-title title="Todos los caballos"></page-title></div>
 
                 <div class="table-container">
                     <div class="table-options">
@@ -32,19 +30,21 @@ class AllHorses extends HTMLElement{
                         </div>
     
                         <div class="options-add">
-                            <button class="option-add-btn">Agregar nuevo Caballo</button>
+                            <button class="add-horse-btn">Agregar nuevo Caballo</button>
                         </div>
 
                     </div>
-                    <table class="table">
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Pelaje</th>
-                            <th>Abono</th>
-                            <th>Fecha Ingreso</th>
-                            <th>Fecha Egreso</th>
-                            <th>Observaciones</th>
-                        </tr>
+                    <table class="table" cellspacing="0" cellpadding="0">
+                        <thead class="table-head">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Pelaje</th>
+                                <th>Abono</th>
+                                <th>Fecha Ingreso</th>
+                                <th>Fecha Egreso</th>
+                                <th>Observaciones</th>
+                            </tr>
+                        </thead>
                         ${
                             listaDeCaballosJSON.map((e)=>{
                                 console.log(e)
@@ -54,7 +54,7 @@ class AllHorses extends HTMLElement{
                                         <td>${e.pelaje}</td>
                                         <td>${e.abono}</td>
                                         <td>${e.ingreso}</td>
-                                        <td>${e.egreso ? '' : e.egreso}</td>
+                                        <td>${e.egreso == null ? ' - ' : e.egreso}</td>
                                         <td>${e.obs}</td>
                                     </tr>
                                 `
@@ -66,11 +66,7 @@ class AllHorses extends HTMLElement{
             </div>
         `
         
-        style.textContent = /*css*/`
-        table, th, td {
-            border:1px solid black;
-        }
-        
+        style.textContent = /*css*/`        
         .root{
             display: flex;
             width: 80vw;
@@ -80,23 +76,53 @@ class AllHorses extends HTMLElement{
             flex-direction: column;
         }
 
-        .div-title{
+        .root-title{
             width: 100%;
-            height: 70px;
-            border-bottom: 1px solid #2a2929;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        .p-title{
-            margin: 0 32px;
-            font-size: 20px;
-            font-weight: 500;
+            height: 60px;
+            margin-bottom: 15px;
         }
 
         .table-container{
-            width: 75vw
+            width: 75vw;
+            font-family: 'Roboto', sans-serif;
+        }
+
+
+        .table{
+            border: 1px solid #e4e4e4;
+            border-radius: 8px;
+            width: 75vw;
+        }
+
+        .table-head{
+            background-color: #ededed;
+            color: #566686;
+            height: 60px;
+            font-weight: 600;
+            line-height: 16px;
+
+            font-size: 18px;
+            border-bottom: 2px solid #e4e4e4;
+        }
+
+        th{
+            text-align: start;
+            padding: 0 10px;
+        }
+
+        td{
+            border-bottom: 2px solid #e4e4e4;
+            font-size: 17px;
+            height: 38px;
+            padding: 0 10px;
+        }
+        tr{
+            border-spacing: 0px;
+            border-collapse: collapse
+        }
+        tr:hover{
+            transition: .2s ease-in-out;
+            background-color: #0d80f217;
         }
 
         .table-options{
@@ -112,7 +138,7 @@ class AllHorses extends HTMLElement{
             width: 380px;
             flex-shrink: 0;
             border-radius: 5px;
-            border: 1px solid black;    
+            border: 2px solid black;    
         }
         
         .option-search-input{
@@ -136,21 +162,24 @@ class AllHorses extends HTMLElement{
             border: 1px solid #73963e;
         }
         
-        .option-add-btn{
+        .add-horse-btn{
             cursor: pointer;
             height: 42px;
             padding: 6px 24px;
             font-size: 18px;
-            color: #e6f2ff;
+            color: #fff;
             border-radius: 5px;
             border: none;
-            background-color: #73963e;
-        }
-
-        .table{
-            width: 70vw;
+            background-color: #5C9902;
         }
         `
+
+        const addHorseButton = div.querySelector(".add-horse-btn") as HTMLButtonElement;
+
+        addHorseButton.addEventListener("click", ()=>{
+            const rootMainContainerPath = document.querySelector("body").querySelector("empresa-page").shadowRoot.querySelector("admin-component").shadowRoot.querySelector(".main-container")
+            rootMainContainerPath.innerHTML = "<create-horse></create-horse>"
+        })
 
         div.appendChild(style)
         this.shadow.appendChild(div);

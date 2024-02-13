@@ -1,6 +1,8 @@
 // Pages
 import "./pages/login"
 import "./pages/empresa"
+// Custom Components
+import "./components/customs/pageTitle"
 // Components
 import "./components/adminComponent"
 import "./components/clientComponent"

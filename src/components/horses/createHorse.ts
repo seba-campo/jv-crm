@@ -19,12 +19,28 @@ class CreateHorse extends HTMLElement{
         const style = document.createElement("style");
 
         div.innerHTML = /*html*/`
-            <div>
-                HOLA DESDE CREATE HORSE
+            <div class="root">
+                <div class="container-title">
+                    <page-title title="Crear caballo"></page-title>               
+                </div>
+                
             </div>
         `
         
-        style.textContent = `
+        style.textContent = /*css*/`        
+        .root{
+            display: flex;
+            width: 80vw;
+            height: 100vh;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container-title{
+            width: 100%;
+            height: 60px;
+        }
         `
 
         div.appendChild(style)
