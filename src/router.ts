@@ -28,6 +28,7 @@ if(!cs.deployed){
   router.setRoutes([
     {path: '/', component: 'login-page'},
     {path: '/cliente', component: 'cliente-page'},
-    {path: '/empresa', component: 'empresa-page'}
+    {path: '/empresa', component: 'empresa-page'},
+    {path: '/expired', component: 'session-expired'}
   ]);
 }

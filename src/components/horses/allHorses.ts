@@ -1,4 +1,3 @@
-import { Router } from "@vaadin/router";
 import { state, deployState } from "../../state";
 
 class AllHorses extends HTMLElement{
@@ -47,7 +46,6 @@ class AllHorses extends HTMLElement{
                         </thead>
                         ${
                             listaDeCaballosJSON.map((e)=>{
-                                console.log(e)
                                 return `
                                     <tr>
                                         <td>${e.nombre}</td>
@@ -173,6 +171,8 @@ class AllHorses extends HTMLElement{
             background-color: #5C9902;
         }
         `
+        const tableEl = div.querySelector(".table") as HTMLElement;
+        tableEl.previousSibling.remove()
 
         const addHorseButton = div.querySelector(".add-horse-btn") as HTMLButtonElement;
 

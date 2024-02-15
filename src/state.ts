@@ -1,16 +1,9 @@
 import * as jwt from "jsonwebtoken"
+import { Horse } from "./types";
 // "https://jvcrm-prod.up.railway.app"
 
 export const API_URL = process.env.PROD_API_URL;
 
-type Horse = {
-    "nombre": string,
-    "pelaje": string,
-    "idPropietario": number,
-    "libreta": boolean,
-    "abono": string,
-    "obs": string
-}
 
 export const deployState = {
     data:{
@@ -54,7 +47,33 @@ export const state = {
             return data.token;
         })
     },
+    // ------CABALLOS-------
+    async createHorse(data){
+        const authKey = this.checkSessionAuth();
+        const {nombre, pelaje, idPropietario, libreta, abono, obs} = data;
+        const newHorse = {
+            nombre,
+            pelaje,
+            idPropietario,
+            libreta,
+            abono,
+            obs
+        }
 
+        fetch(API_URL+"/caballos", {
+            mode: "cors",
+            method:"POST",
+            body: JSON.stringify(newHorse),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: authKey
+            }
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        });
+    },
     async getAllHorses(){
         return fetch(API_URL+"/caballos",{
             mode: "cors",
@@ -68,8 +87,36 @@ export const state = {
             return data;
         })
     },
+    async getActiveHorses(){
+        return fetch(API_URL+"/caballos/activos/all",{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json"
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        })
+    },
     async addHorse(newHorseData: Horse){
 
+    },
+    async getAllClientes(){
+        const authKey = this.checkSessionAuth();
+        return fetch(API_URL+"/clientes",{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: authKey
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        })
     },
     decodeToken(token: any){
         const tokenDecoded = jwt.decode(token) as any
@@ -99,5 +146,24 @@ export const state = {
         const cs = this.getState();
         cs.userType = newUserType;
         this.setState(cs);
+    },
+    checkSessionAuth(){
+        var authStringReturn = "bearer ";
+        const cs = this.getState();
+        const userDataLs = JSON.parse(localStorage.getItem("userData"));
+
+        if(cs.userToken != ""){
+            authStringReturn += cs.userToken
+            return authStringReturn
+        }
+        else{
+            if(userDataLs != null || userDataLs != undefined){
+                authStringReturn += userDataLs.userToken
+                return authStringReturn
+            }
+            else{
+                throw "Sesion expirada"
+            }
+        };
     }
 };
