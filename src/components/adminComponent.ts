@@ -56,17 +56,14 @@ class AdminMainComponent extends HTMLElement{
                             <p>></p>
                         </div>
                         <div class="clientes-options extras">
-                            <div>
+                            <div class="agregar-cliente">
                                 <p>Agregar cliente</p>
                             </div>
-                            <div>
-                                <p>Clientes activos</p>
+                            <div class="modificar-cliente">
+                                <p>Modificar cliente</p>
                             </div>
-                            <div>
-                                <p>Clientes inactivos</p>
-                            </div>
-                            <div>
-                                <p>Todos los registros</p>
+                            <div class="all-clientes">
+                                <p>Todos los clientes</p>
                             </div>
                         </div>
                     </div>
@@ -78,13 +75,13 @@ class AdminMainComponent extends HTMLElement{
                         </div>
                         <div class="servicios-options extras">
                             <div>
-                                <p>Cargar servicio</p>
+                                <p class="" >Cargar servicio</p>
                             </div>
                             <div>
-                                <p>Servicios pendientes</p>
+                                <p class="">Servicios pendientes</p>
                             </div>
                             <div>
-                                <p>Todos los registros</p>
+                                <p class="">Todos los registros</p>
                             </div>
                         </div>
                     </div>
@@ -109,6 +106,11 @@ class AdminMainComponent extends HTMLElement{
             flex-direction: column;
             width: 20vw;
             height: 100vh;
+        }
+        @media(min-width: 1100px){
+            .admin-bar-root{
+                width: 15vw;
+            }
         }
 
         .main-container{
@@ -149,6 +151,15 @@ class AdminMainComponent extends HTMLElement{
             display: none;
             font-weight: 500;
             cursor: pointer
+        }
+
+        .main-container{
+            width: 80vw;
+        }
+        @media(min-width: 1100px){
+            .main-container{
+                width: 85vw;
+            }
         }
         `
 
@@ -220,7 +231,23 @@ class AdminMainComponent extends HTMLElement{
             mainContainer.innerHTML = '<all-horses></all-horses>';
         })
 
+        //CREAR CLIENTE
+        const crearClienteDiv = div.querySelector(".agregar-cliente");
+        crearClienteDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<create-client></create-client>';
+        })
 
+        //CREAR CLIENTE
+        const modificarClienteDiv = div.querySelector(".modificar-cliente");
+        modificarClienteDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<modify-client></modify-client>';
+        })
+
+        //TODOS LOS CLIENTES
+        const allClientesDiv = div.querySelector(".all-clientes");
+        allClientesDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<all-clients></all-clients>';
+        })
 
         div.appendChild(style)
         this.shadow.appendChild(div);

@@ -23,10 +23,15 @@ class PageTitle extends HTMLElement{
         .root-page-title{
             display: flex;
             width: 80vw;
-            height: 100vh;
+            /* height: 100vh; */
             justify-content: flex-start;
             align-items: center;
             flex-direction: column;
+        }
+        @media(min-width: 1100px){
+            .root-page-title{
+                width: 85vw;
+            }
         }
 
         .div-title{

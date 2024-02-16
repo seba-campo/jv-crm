@@ -100,10 +100,48 @@ export const state = {
             return data;
         })
     },
-    async addHorse(newHorseData: Horse){
+    // CLIENTS ----------
+    async createClient(data){
+        const authKey = this.checkSessionAuth();
+        const {nombre, apellido, telefono, dni,} = data;
+        
+        const newClient = {
+            nombre,
+            apellido,
+            telefono,
+            dni
+        }
 
+        fetch(API_URL+"/clientes", {
+            mode: "cors",
+            method:"POST",
+            body: JSON.stringify(newClient),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: authKey
+            }
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        });
     },
     async getAllClientes(){
+        const authKey = this.checkSessionAuth();
+        return fetch(API_URL+"/clientes",{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: authKey
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        })
+    },
+    async getActiveClients(){
         const authKey = this.checkSessionAuth();
         return fetch(API_URL+"/clientes",{
             mode: "cors",
