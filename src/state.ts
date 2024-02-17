@@ -1,9 +1,10 @@
 import * as jwt from "jsonwebtoken"
 import { Horse } from "./types";
+import { Router } from "@vaadin/router";
 // "https://jvcrm-prod.up.railway.app"
 
 export const API_URL = process.env.PROD_API_URL;
-
+const SECRET = "LeN62RqrCEGn-AdRWGfMPgexBYynMW8e2F_Q2bnbxNbW8ETnYNJLc_UC4zgGmTFpawR6FapGyxBPZG3tZjQA7FN6kCfJCTWiPQcTB_dnjW44KeCVCttmhfmpc3YU6xGTcU2UCMZpC_UQJ8PZ9L7Un74xNjU42EFJRDnGYDFLJbLhf2_VAgJ2-nUC6tbtxGCT9HaAZfHfEZ-dK4QXK3";
 
 export const deployState = {
     data:{
@@ -28,6 +29,7 @@ export const state = {
         userType: ""
     },
     listeners: [],
+    // USUARIOS-----------
     async authUser(email, password){
         const userData = {
             email,
@@ -47,9 +49,65 @@ export const state = {
             return data.token;
         })
     },
+    // CLIENTS ----------
+    async createClient(data){
+        const authKey = this.sessionAuthParser();
+        const {nombre, apellido, telefono, dni,} = data;
+        
+        const newClient = {
+            nombre,
+            apellido,
+            telefono,
+            dni
+        }
+
+        fetch(API_URL+"/clientes", {
+            mode: "cors",
+            method:"POST",
+            body: JSON.stringify(newClient),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: authKey
+            }
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        });
+    },
+    async getAllClientes(){
+        const authKey = this.sessionAuthParser();
+        return fetch(API_URL+"/clientes",{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: authKey
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        })
+    },
+    async getActiveClients(){
+        const authKey = this.sessionAuthParser();
+        return fetch(API_URL+"/clientes",{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: authKey
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        })
+    },
     // ------CABALLOS-------
     async createHorse(data){
-        const authKey = this.checkSessionAuth();
+        const authKey = this.sessionAuthParser();
         const {nombre, pelaje, idPropietario, libreta, abono, obs} = data;
         const newHorse = {
             nombre,
@@ -100,22 +158,23 @@ export const state = {
             return data;
         })
     },
-    // CLIENTS ----------
-    async createClient(data){
-        const authKey = this.checkSessionAuth();
-        const {nombre, apellido, telefono, dni,} = data;
-        
-        const newClient = {
-            nombre,
-            apellido,
-            telefono,
-            dni
+    // SERVICIOS----------
+    async createNewService(data){
+        const authKey = this.sessionAuthParser();
+        const {tipo, idCliente, subTipo, costo, estado, obs} = data;
+        const newServiceData = {
+            tipo,
+            idCliente,
+            subTipo,
+            costo,
+            estado,
+            obs
         }
 
-        fetch(API_URL+"/clientes", {
+        fetch(API_URL+"/servicio", {
             mode: "cors",
             method:"POST",
-            body: JSON.stringify(newClient),
+            body: JSON.stringify(newServiceData),
             headers: {
                 "Content-Type": "application/json",
                 Authorization: authKey
@@ -126,36 +185,10 @@ export const state = {
             return data;
         });
     },
-    async getAllClientes(){
-        const authKey = this.checkSessionAuth();
-        return fetch(API_URL+"/clientes",{
-            mode: "cors",
-            method: "GET",
-            headers:{
-                "Content-Type": "application/json",
-                Authorization: authKey
-              },
-        })
-        .then((res)=>{return res.json()})
-        .then((data)=>{
-            return data;
-        })
+    async getAllServices(){
+
     },
-    async getActiveClients(){
-        const authKey = this.checkSessionAuth();
-        return fetch(API_URL+"/clientes",{
-            mode: "cors",
-            method: "GET",
-            headers:{
-                "Content-Type": "application/json",
-                Authorization: authKey
-              },
-        })
-        .then((res)=>{return res.json()})
-        .then((data)=>{
-            return data;
-        })
-    },
+    // UTILS-------------
     decodeToken(token: any){
         const tokenDecoded = jwt.decode(token) as any
         // Se setea en el LS
@@ -185,7 +218,7 @@ export const state = {
         cs.userType = newUserType;
         this.setState(cs);
     },
-    checkSessionAuth(){
+    sessionAuthParser(){
         var authStringReturn = "bearer ";
         const cs = this.getState();
         const userDataLs = JSON.parse(localStorage.getItem("userData"));
@@ -200,7 +233,8 @@ export const state = {
                 return authStringReturn
             }
             else{
-                throw "Sesion expirada"
+                console.log("Error inesperado, no se encontró token de validacion, vuelva a loguearse")
+                Router.go("/expired")
             }
         };
     }

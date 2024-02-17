@@ -2,6 +2,7 @@ import { API_URL } from "../../state";
 import { Router } from "@vaadin/router";
 import { state, deployState } from "../../state";
 import * as crypto from "crypto-browserify";
+import { log } from "console";
 
 
 
@@ -158,6 +159,37 @@ class ModifyClient extends HTMLElement{
             background-color: #5C9902;
         }
         `
+
+        const inputDniEl = div.querySelector(".search-dni") as HTMLInputElement
+        const inputTelEl = div.querySelector(".search-telefono") as HTMLInputElement
+        const inputNombreApellidoEl = div.querySelector(".search-nombre-apellido-input") as HTMLInputElement;
+        const buttonSearch = div.querySelector(".search-client") as HTMLButtonElement;
+
+        buttonSearch.addEventListener("click", ()=>{
+            const nombre = inputNombreApellidoEl.value.split(" ")[0];
+            const apellido = inputNombreApellidoEl.value.split(" ")[1];
+            
+            const searchQuery = {
+                dni: inputDniEl.value,
+                telefono: inputTelEl.value,
+                nombre,
+                apellido
+            }
+            if(searchQuery.dni.length != 0){
+                console.log("buscar x dni")
+            }
+            else if(searchQuery.telefono.length != 0){
+                console.log("buscar x tel");
+            }
+            else if(searchQuery.nombre.length != 0){
+                console.log("buscar x nombre");                
+            }
+            else{
+                console.log("no hay search")
+            }
+
+            // TODO HACER ENDPOINT EN API QUE TRAIGA INFORMACION DE UN CLIENTE ESPECIFICO
+        })
 
         div.appendChild(style)
         this.shadow.appendChild(div);

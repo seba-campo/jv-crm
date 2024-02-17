@@ -41,9 +41,6 @@ class AdminMainComponent extends HTMLElement{
                             <div class="caballos-activos">
                                 <p>Caballos activos</p>
                             </div>
-                            <div class="caballos-inactivos">
-                                <p>Caballos inactivos</p>
-                            </div>
                             <div class="all-horses">
                                 <p>Todos los registros</p>
                             </div>
@@ -74,14 +71,14 @@ class AdminMainComponent extends HTMLElement{
                             <p>></p>
                         </div>
                         <div class="servicios-options extras">
-                            <div>
-                                <p class="" >Cargar servicio</p>
+                            <div class="crear-servicio">
+                                <p >Cargar servicio</p>
                             </div>
                             <div>
-                                <p class="">Servicios pendientes</p>
+                                <p>Servicios pendientes</p>
                             </div>
                             <div>
-                                <p class="">Todos los registros</p>
+                                <p>Todos los registros</p>
                             </div>
                         </div>
                     </div>
@@ -218,12 +215,6 @@ class AdminMainComponent extends HTMLElement{
         caballosActivosDiv.addEventListener("click", ()=>{
             mainContainer.innerHTML = '<active-horses></active-horses>';
         })
-
-        //CABALLOS INACTIVOS
-        const caballosInactivosDiv = div.querySelector(".caballos-inactivos");
-        caballosInactivosDiv.addEventListener("click", ()=>{
-            mainContainer.innerHTML = '<unactive-horses></unactive-horses>';
-        })
         
         //TODOS LOS CABALLOS
         const allCaballosDiv = div.querySelector(".all-horses");
@@ -247,6 +238,12 @@ class AdminMainComponent extends HTMLElement{
         const allClientesDiv = div.querySelector(".all-clientes");
         allClientesDiv.addEventListener("click", ()=>{
             mainContainer.innerHTML = '<all-clients></all-clients>';
+        })
+
+        //CREAR SERVICIO
+        const crearServicioDiv = div.querySelector(".crear-servicio");
+        crearServicioDiv.addEventListener("click", ()=>{
+            mainContainer.innerHTML = '<create-service></create-service>';
         })
 
         div.appendChild(style)

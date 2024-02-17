@@ -9,21 +9,18 @@ import "./components/customs/formMessage"
 import "./components/adminComponent"
 import "./components/clientComponent"
     //CABALLOS
-import "./components/horses/createHorse"
-import "./components/horses/activeHorses"
-import "./components/horses/unactiveHorses"
-import "./components/horses/allHorses"
+import "./components/caballos/createHorse"
+import "./components/caballos/activeHorses"
+import "./components/caballos/allHorses"
     //CLIENTES
 import "./components/clientes/createClient"
 import "./components/clientes/modifyClient"
 import "./components/clientes/allClients"
+    //SERVICIOS
+import "./components/servicios/createService" 
 // Tools
 import "./router"
 
 (() => {
 
 })();
-  
-function changeClientStatus(id){
-    console.log(id)
-}

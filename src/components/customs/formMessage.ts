@@ -45,6 +45,7 @@ class FormMessage extends HTMLElement{
         .div-msj{
             width: 245px;
             height: 40px;
+            border-radius: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
