@@ -1,9 +1,11 @@
 import * as jwt from "jsonwebtoken"
 import { Horse } from "./types";
 import { Router } from "@vaadin/router";
-// "https://jvcrm-prod.up.railway.app"
+// ""
+// process.env.PROD_API_URL
 
-export const API_URL = process.env.PROD_API_URL;
+
+export const API_URL = "https://jvcrm-prod.up.railway.app";
 const SECRET = "LeN62RqrCEGn-AdRWGfMPgexBYynMW8e2F_Q2bnbxNbW8ETnYNJLc_UC4zgGmTFpawR6FapGyxBPZG3tZjQA7FN6kCfJCTWiPQcTB_dnjW44KeCVCttmhfmpc3YU6xGTcU2UCMZpC_UQJ8PZ9L7Un74xNjU42EFJRDnGYDFLJbLhf2_VAgJ2-nUC6tbtxGCT9HaAZfHfEZ-dK4QXK3";
 
 export const deployState = {

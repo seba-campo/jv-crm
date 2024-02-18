@@ -49,6 +49,10 @@ class ModifyClient extends HTMLElement{
                     </div>
                 </div>
 
+                <div class="search-result-container">
+                        
+                </div>
+
 
             </div>
         `
@@ -158,6 +162,23 @@ class ModifyClient extends HTMLElement{
             border: none;
             background-color: #5C9902;
         }
+
+        /* TOGGLE BAR */
+        .toggle-bar-div{
+            width: 80vw;
+            background-color: #dedede;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-around;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+        @media(min-width:1100px){
+        .toggle-bar-div{
+            width: 85vw;
+        }}
+
         `
 
         const inputDniEl = div.querySelector(".search-dni") as HTMLInputElement
