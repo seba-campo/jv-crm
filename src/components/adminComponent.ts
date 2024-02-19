@@ -56,8 +56,8 @@ class AdminMainComponent extends HTMLElement{
                             <div class="agregar-cliente">
                                 <p>Agregar cliente</p>
                             </div>
-                            <div class="modificar-cliente">
-                                <p>Modificar cliente</p>
+                            <div class="buscar-cliente">
+                                <p>Buscar cliente</p>
                             </div>
                             <div class="all-clientes">
                                 <p>Todos los clientes</p>
@@ -229,9 +229,9 @@ class AdminMainComponent extends HTMLElement{
         })
 
         //CREAR CLIENTE
-        const modificarClienteDiv = div.querySelector(".modificar-cliente");
+        const modificarClienteDiv = div.querySelector(".buscar-cliente");
         modificarClienteDiv.addEventListener("click", ()=>{
-            mainContainer.innerHTML = '<modify-client></modify-client>';
+            mainContainer.innerHTML = '<search-client></search-client>';
         })
 
         //TODOS LOS CLIENTES

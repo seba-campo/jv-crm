@@ -1,11 +1,11 @@
 import * as jwt from "jsonwebtoken"
 import { Horse } from "./types";
 import { Router } from "@vaadin/router";
-// ""
+// "https://jvcrm-prod.up.railway.app"
 // process.env.PROD_API_URL
 
 
-export const API_URL = "https://jvcrm-prod.up.railway.app";
+export const API_URL = process.env.PROD_API_URL;
 const SECRET = "LeN62RqrCEGn-AdRWGfMPgexBYynMW8e2F_Q2bnbxNbW8ETnYNJLc_UC4zgGmTFpawR6FapGyxBPZG3tZjQA7FN6kCfJCTWiPQcTB_dnjW44KeCVCttmhfmpc3YU6xGTcU2UCMZpC_UQJ8PZ9L7Un74xNjU42EFJRDnGYDFLJbLhf2_VAgJ2-nUC6tbtxGCT9HaAZfHfEZ-dK4QXK3";
 
 export const deployState = {
@@ -28,7 +28,12 @@ export const deployState = {
 export const state = {
     data:{
         userToken: "",
-        userType: ""
+        userType: "",
+        clientInformation:{
+            clientData: {},
+            clientHorses: [],
+            clientServices: [],
+        }
     },
     listeners: [],
     // USUARIOS-----------
@@ -52,6 +57,60 @@ export const state = {
         })
     },
     // CLIENTS ----------
+    async getClientDataBy(type: string, cInfo){
+        const authKey = this.sessionAuthParser();
+        switch(type){
+            case "dni":
+                await fetch(API_URL+"/clientes/buscar/dni/"+cInfo.dni, {
+                    mode: "cors",
+                    method:"GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: authKey
+                    }
+                })
+                .then((res)=>{return res.json()})
+                .then((data)=>{
+                    this.setClientInfo(data)
+                    return data;
+                });
+                break
+            case "tel":
+                await fetch(API_URL+"/clientes/buscar/telefono/"+cInfo.telefono, {
+                    mode: "cors",
+                    method:"GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: authKey
+                    }
+                })
+                .then((res)=>{return res.json()})
+                .then((data)=>{
+                    this.setClientInfo(data)
+                    return data;
+                });
+                break
+            case "nombre":
+            await fetch(API_URL+"/clientes/buscar/nombre", {
+                mode: "cors",
+                method:"GET",
+                body: JSON.stringify({
+                    nombre: cInfo.nombre,
+                    apellido: cInfo.apellido
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: authKey
+                }
+            })
+            .then((res)=>{return res.json()})
+            .then((data)=>{
+                this.setClientInfo(data)
+                return data;
+            });
+            break
+        }
+    },
     async createClient(data){
         const authKey = this.sessionAuthParser();
         const {nombre, apellido, telefono, dni,} = data;
@@ -108,6 +167,22 @@ export const state = {
         })
     },
     // ------CABALLOS-------
+    async getHorsesFromClient(clientId:number){
+        const authKey = this.sessionAuthParser();
+        await fetch(API_URL+"/caballos/"+clientId, {
+            mode: "cors",
+            method:"GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: authKey
+            }
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            this.setClientHorses(data)
+            return data;
+        });
+    },
     async createHorse(data){
         const authKey = this.sessionAuthParser();
         const {nombre, pelaje, idPropietario, libreta, abono, obs} = data;
@@ -190,6 +265,23 @@ export const state = {
     async getAllServices(){
 
     },
+    async getServicesFromUserId(userId: number){    
+        const authKey = this.sessionAuthParser();
+
+        await fetch(API_URL+"/servicio/"+userId, {
+            mode: "cors",
+            method:"GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: authKey
+            }
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            this.setClientServices
+            return data;
+        });
+    },
     // UTILS-------------
     decodeToken(token: any){
         const tokenDecoded = jwt.decode(token) as any
@@ -239,5 +331,29 @@ export const state = {
                 Router.go("/expired")
             }
         };
+    },
+    setClientInfo(data){
+        const cs = this.getState();
+        cs.clientInformation.clientData = data;
+        this.setState(cs)
+    },
+    clearClientInfo(){
+        const cs = this.getState();
+        cs.clientInformation = {
+            clientData: {},
+            clientHorses: [],
+            clientServices: []
+        }
+        this.setState(cs)
+    },
+    setClientHorses(data){
+        const cs = this.getState();
+        cs.clientInformation.clientHorses = data;
+        this.setState(cs)
+    },
+    setClientServices(data){
+        const cs = this.getState();
+        cs.clientInformation.clientServices = data;
+        this.setState(cs)
     }
 };

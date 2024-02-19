@@ -14,7 +14,7 @@ import "./components/caballos/activeHorses"
 import "./components/caballos/allHorses"
     //CLIENTES
 import "./components/clientes/createClient"
-import "./components/clientes/modifyClient"
+import "./components/clientes/searchClient"
 import "./components/clientes/allClients"
     //SERVICIOS
 import "./components/servicios/createService" 
