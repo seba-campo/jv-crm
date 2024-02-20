@@ -20,7 +20,7 @@ class Login extends HTMLElement{
 
         const lsMail = localStorage.getItem("loginMailSaved");
 
-        div.innerHTML = `
+        div.innerHTML = /*html*/`
             <div class="login-root">
                 <div class="login-box">
                     <div class="login-box__title">
@@ -52,13 +52,13 @@ class Login extends HTMLElement{
             </div>
         `
         
-        style.textContent = `
+        style.textContent = /*css*/`
             .login-root{
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                widht: 100vw;
+                width: 100vw;
                 font-family: 'Assistant', sans-serif;
             }
 
@@ -197,7 +197,8 @@ class Login extends HTMLElement{
                 await state.authUser(emailEl.value, passowrdHashed);
                 const currentState = state.getState();
                 switch(currentState.userType){
-                    case "user":
+                    case "cliente":
+                        state.setUserEmail(emailEl.value)
                         Router.go("/cliente");
                         break
                     case "admin":

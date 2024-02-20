@@ -33,10 +33,31 @@ export const state = {
             clientData: {},
             clientHorses: [],
             clientServices: [],
+        },
+        userClientData:{
+            nombre: "",
+            email: "",
+            id: "",
         }
     },
     listeners: [],
     // USUARIOS-----------
+    async getUserInfo(email){
+        return fetch (API_URL+"/auth/info/"+email,{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json"
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            // console.log("seteado el fullname", data.fullName)
+            this.setUserName(data.fullName)
+            this.setUserClientId(data.idCliente)
+            // return data
+        })
+    },
     async authUser(email, password){
         const userData = {
             email,
@@ -238,10 +259,11 @@ export const state = {
     // SERVICIOS----------
     async createNewService(data){
         const authKey = this.sessionAuthParser();
-        const {tipo, idCliente, subTipo, costo, estado, obs} = data;
+        const {tipo, idCliente, nombreCliente, subTipo, costo, estado, obs} = data;
         const newServiceData = {
             tipo,
             idCliente,
+            nombreCliente,
             subTipo,
             costo,
             estado,
@@ -265,6 +287,23 @@ export const state = {
     async getAllServices(){
 
     },
+    async getPendingServices(){
+        const authKey = this.sessionAuthParser();
+
+        return fetch(API_URL+"/servicio/pendiente", {
+            mode: "cors",
+            method:"GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: authKey
+            }
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            console.log(data)
+            return data;
+        });
+    },
     async getServicesFromUserId(userId: number){    
         const authKey = this.sessionAuthParser();
 
@@ -278,7 +317,7 @@ export const state = {
         })
         .then((res)=>{return res.json()})
         .then((data)=>{
-            this.setClientServices
+            this.setClientServices(data)
             return data;
         });
     },
@@ -331,6 +370,21 @@ export const state = {
                 Router.go("/expired")
             }
         };
+    },
+    setUserName(name){
+        const cs = this.getState();
+        cs.userClientData.nombre = name;
+        this.setState(cs) 
+    },
+    setUserEmail(email){
+        const cs = this.getState();
+        cs.userClientData.email = email;
+        this.setState(cs) 
+    },
+    setUserClientId(id){
+        const cs = this.getState();
+        cs.userClientData.id = id;
+        this.setState(cs) 
     },
     setClientInfo(data){
         const cs = this.getState();

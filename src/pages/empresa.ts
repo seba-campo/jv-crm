@@ -1,8 +1,3 @@
-import { API_URL } from "../state";
-import { Router } from "@vaadin/router";
-import { state, deployState } from "../state";
-import * as crypto from "crypto-browserify";
-
 class Empresa extends HTMLElement{
     shadow = this.attachShadow({mode: "open"});
     constructor(){

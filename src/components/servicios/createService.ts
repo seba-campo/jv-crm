@@ -45,7 +45,7 @@ class CreateService extends HTMLElement{
                             <select name="propietario" class="propietario-sel">
                                 ${
                                     clientesSplitted.map((c)=>{
-                                        return `<option value='${c.id}'>${c.nombre} ${c.apellido}</option>`
+                                        return `<option value='${c.id}/${c.nombre} ${c.apellido}'>${c.nombre} ${c.apellido}</option>`
                                     })
                                 }
                                 
@@ -262,7 +262,8 @@ class CreateService extends HTMLElement{
             const obs = div.querySelector(".obs-input") as HTMLSelectElement;
 
             const newService = {
-                cliente: cliente.value,
+                idCliente: cliente.value.split("/")[0],
+                nombreCliente: cliente.value.split("/")[1],
                 tipo: tipoServicio.value,
                 subTipo: subTipoServicio.value,
                 costo: parseInt(costo.value),

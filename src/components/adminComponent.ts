@@ -18,17 +18,15 @@ class AdminMainComponent extends HTMLElement{
     render(){
         const div = document.createElement("div");
         const style = document.createElement("style");
-        
-        const userName = "Karina"
 
         div.innerHTML = /*html*/`
         <div class="root">
             <div class="admin-bar-root">
-                <div class="bar-header">
-                    <p>Hola ${userName}</p>
-                </div>
                 
                 <div class="bar-options">
+                    <div class="bar-header">
+                        <p>Panel administrador</p>
+                    </div>
                     <div class="option caballos" id="0">
                         <div class="option-wrapper">
                             <p>Caballos</p>
@@ -74,7 +72,7 @@ class AdminMainComponent extends HTMLElement{
                             <div class="crear-servicio">
                                 <p >Cargar servicio</p>
                             </div>
-                            <div>
+                            <div class="servicios-pendientes">
                                 <p>Servicios pendientes</p>
                             </div>
                             <div>
@@ -84,6 +82,8 @@ class AdminMainComponent extends HTMLElement{
                     </div>
 
                 </div>
+
+                <log-out class="log-out-btn"></log-out>
             </div>
 
             <div class="main-container">
@@ -101,6 +101,7 @@ class AdminMainComponent extends HTMLElement{
         .admin-bar-root{
             display: flex; 
             flex-direction: column;
+            justify-content: space-between;
             width: 20vw;
             height: 100vh;
         }
@@ -158,6 +159,7 @@ class AdminMainComponent extends HTMLElement{
                 width: 85vw;
             }
         }
+
         `
 
         const caballosOption = div.querySelector(".caballos") as HTMLDivElement;
@@ -244,6 +246,12 @@ class AdminMainComponent extends HTMLElement{
         const crearServicioDiv = div.querySelector(".crear-servicio");
         crearServicioDiv.addEventListener("click", ()=>{
             mainContainer.innerHTML = '<create-service></create-service>';
+        })
+
+        const serviciosPendientesDiv = div.querySelector(".servicios-pendientes");
+        serviciosPendientesDiv.addEventListener("click", ()=>{
+            console.log("hola")
+            mainContainer.innerHTML = '<pending-services></pending-services>';
         })
 
         div.appendChild(style)

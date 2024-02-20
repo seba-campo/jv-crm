@@ -5,17 +5,18 @@ class PendingServices extends HTMLElement{
     constructor(){
         super();
     }
-    listaDeCaballos: any
     async connectedCallback(){
-        const caballos = await state.getAllHorses();
-        this.listaDeCaballos = JSON.stringify(caballos)
+        const servicios = await state.getPendingServices();
+        console.log(servicios)
+        this.listaDeServicios = JSON.stringify(servicios)
         this.render()
     }
+    listaDeServicios: any
     render(){
         const div = document.createElement("div");
         const style = document.createElement("style");
 
-        const listaDeCaballosJSON = JSON.parse(this.listaDeCaballos.split(","));
+        const listaDeServiciosJSON = JSON.parse(this.listaDeServicios.split(","));
 
         div.innerHTML = /*html*/`
             <div class="root">
@@ -29,21 +30,22 @@ class PendingServices extends HTMLElement{
                                 <th>Cliente</th>
                                 <th>Tipo</th>
                                 <th>Subtipo</th>
-                                <th>AbonCosto</th>
+                                <th>Costo</th>
                                 <th>Estado</th>
                                 <th>Fecha servicio</th>
                                 <th>Observaciones</th>
                             </tr>
                         </thead>
                         ${
-                            listaDeCaballosJSON.map((e)=>{
+                            listaDeServiciosJSON.map((e)=>{
                                 return `
                                     <tr>
-                                        <td>${e.nombre}</td>
-                                        <td>${e.pelaje}</td>
-                                        <td>${e.abono}</td>
-                                        <td>${e.ingreso}</td>
-                                        <td>${e.egreso == null ? ' - ' : e.egreso}</td>
+                                        <td>${e.nombreCliente}</td>
+                                        <td>${e.tipo}</td>
+                                        <td>${e.subTipo}</td>
+                                        <td>${e.costo}</td>
+                                        <td>${e.estado}</td>
+                                        <td>${e.fechaServicio}</td>
                                         <td>${e.obs}</td>
                                     </tr>
                                 `
