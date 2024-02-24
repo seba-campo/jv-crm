@@ -21,6 +21,7 @@ import "./components/clientes/allClients"
     //SERVICIOS
 import "./components/servicios/createService" 
 import "./components/servicios/pendingServices"
+import "./components/servicios/allServices"
 // Tools
 import "./router"
 

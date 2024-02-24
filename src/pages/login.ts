@@ -196,13 +196,24 @@ class Login extends HTMLElement{
                 errorEl.style.display = "none";
                 await state.authUser(emailEl.value, passowrdHashed);
                 const currentState = state.getState();
+                const deployStatus = deployState.getState().deployed;
                 switch(currentState.userType){
                     case "cliente":
                         state.setUserEmail(emailEl.value)
-                        Router.go("/cliente");
+                        if(!deployStatus){
+                            Router.go("/cliente");
+                        }
+                        else{
+                            Router.go("/jv-crm/cliente");
+                        }
                         break
                     case "admin":
-                        Router.go("/empresa");
+                        if(!deployStatus){
+                            Router.go("/empresa");
+                        }
+                        else{
+                            Router.go("/jv-crm/empresa");
+                        }
                         break
                 }
             }

@@ -27,23 +27,6 @@ class AdminMainComponent extends HTMLElement{
                     <div class="bar-header">
                         <p>Panel administrador</p>
                     </div>
-                    <div class="option caballos" id="0">
-                        <div class="option-wrapper">
-                            <p>Caballos</p>
-                            <p>></p>                          
-                        </div>
-                        <div class="caballos-options extras">
-                            <div class="crear-caballo">
-                                <p>Agregar caballo</p>
-                            </div>
-                            <div class="caballos-activos">
-                                <p>Caballos activos</p>
-                            </div>
-                            <div class="all-horses">
-                                <p>Todos los registros</p>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="option clientes" id="1">
                         <div class="option-wrapper">
@@ -63,6 +46,24 @@ class AdminMainComponent extends HTMLElement{
                         </div>
                     </div>
 
+                    <div class="option caballos" id="0">
+                        <div class="option-wrapper">
+                            <p>Caballos</p>
+                            <p>></p>                          
+                        </div>
+                        <div class="caballos-options extras">
+                            <div class="crear-caballo">
+                                <p>Agregar caballo</p>
+                            </div>
+                            <div class="caballos-activos">
+                                <p>Caballos activos</p>
+                            </div>
+                            <div class="all-horses">
+                                <p>Todos los registros</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="option servicios" id="2">
                         <div class="option-wrapper">
                             <p>Servicios</p>
@@ -75,7 +76,7 @@ class AdminMainComponent extends HTMLElement{
                             <div class="servicios-pendientes">
                                 <p>Servicios pendientes</p>
                             </div>
-                            <div>
+                            <div class="all-services">
                                 <p>Todos los registros</p>
                             </div>
                         </div>
@@ -252,6 +253,12 @@ class AdminMainComponent extends HTMLElement{
         serviciosPendientesDiv.addEventListener("click", ()=>{
             console.log("hola")
             mainContainer.innerHTML = '<pending-services></pending-services>';
+        })
+
+        const allServicesDiv = div.querySelector(".all-services");
+        allServicesDiv.addEventListener("click", ()=>{
+            console.log("hola")
+            mainContainer.innerHTML = '<all-services></all-services>';
         })
 
         div.appendChild(style)

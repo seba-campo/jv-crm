@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { deployState } from "../state";
 
 class SessionExpired extends HTMLElement{
     shadow = this.attachShadow({mode: "open"});
@@ -90,7 +91,13 @@ class SessionExpired extends HTMLElement{
             // Borrar el local storage del sitio
             localStorage.clear();
             // Enviar al login
-            Router.go("/")
+            const deployedStatus = deployState.getState().deployed;
+            if(!deployedStatus){
+                Router.go("/")
+            }
+            else{
+                Router.go("/jv-crm/")
+            }
         })
 
         div.appendChild(style)

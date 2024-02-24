@@ -3,16 +3,19 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.11.16",
     "@vaadin/router": "^1.7.5",
+    "gh-pages": "^6.1.1",
     "jsonwebtoken": "^9.0.2",
     "parcel": "^2.11.0"
   },
   "scripts": {
     "dev": "parcel ./src/index.html -p 8080",
-    "build": "tsc",
-    "start": "node ./build/index.js"
+    "build": "parcel build ./src/index.html --dist-dir build --public-url https://seba-campo.github.io/jv-crm/",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
+    "assert": "^2.0.0",
     "buffer": "^5.5.0||^6.0.0",
+    "console-browserify": "^1.2.0",
     "crypto-browserify": "^3.12.0",
     "events": "^3.1.0",
     "os-browserify": "^0.3.0",

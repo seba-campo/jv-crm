@@ -75,6 +75,14 @@ class CreateHorse extends HTMLElement{
                             <input class="form-input-text obs-input" type="text" name="obs" id="">
                         </div>
 
+                        <div class="pop-up-msj" id="msj-success">
+                            <form-message status="200">Caballo creado correctamente</form-message>
+                        </div>
+                            
+                        <div class="pop-up-msj" id="msj-error">
+                            <form-message status="500">Error al crear caballo</form-message>
+                        </div>
+
                         <div class="form-div-input">
                             <button class="submit-btn">Crear</button>
                         </div>
@@ -97,6 +105,13 @@ class CreateHorse extends HTMLElement{
         .container-title{
             width: 100%;
             height: 60px;
+        }
+
+        .form{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
         }
         
         .form-root{
@@ -206,6 +221,20 @@ class CreateHorse extends HTMLElement{
             content: '';
             background:#666;
         }
+
+        .pop-up-msj{
+            width: 100px;
+            height: 50px;
+        }
+
+        #msj-error{
+            display: none;
+        }
+
+        #msj-success{
+            display: none;
+        }
+
         `
 
         const formEl = div.querySelector(".form") as HTMLFormElement;
@@ -220,6 +249,9 @@ class CreateHorse extends HTMLElement{
             const abono = div.querySelector(".abono-sel") as HTMLSelectElement;
             const obs = div.querySelector(".obs-input") as HTMLInputElement;
 
+            const successMsj = div.querySelector("#msj-success") as HTMLDivElement;
+            const errorMsj = div.querySelector("#msj-error") as HTMLDivElement;
+
             const newHorseData = {
                 nombre: nombre.value,
                 pelaje: pelaje.value,
@@ -229,9 +261,22 @@ class CreateHorse extends HTMLElement{
                 obs: obs.value,
             };
 
-            const newHorseCreation = await state.createHorse(newHorseData);
-            console.log(newHorseCreation)
-            
+            state.createHorse(newHorseData)
+            .then((res)=>{
+                successMsj.style.display = "flex"
+                console.log("Realizado")
+                setTimeout(()=>{
+                    successMsj.style.display = "none"
+                }, 9000)
+            })
+            .catch((e)=>{
+                console.log(e)
+                errorMsj.style.display = "flex"
+                console.log("No se pudo crear")
+                setTimeout(()=>{
+                    errorMsj.style.display = "none"
+                }, 9000)
+            })
         })
 
         div.appendChild(style)

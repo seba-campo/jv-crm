@@ -1,13 +1,10 @@
 import * as jwt from "jsonwebtoken"
 import { Horse } from "./types";
 import { Router } from "@vaadin/router";
-// "https://jvcrm-prod.up.railway.app"
-// process.env.PROD_API_URL
-
+import { error } from "console";
 
 export const API_URL = process.env.PROD_API_URL;
-const SECRET = "LeN62RqrCEGn-AdRWGfMPgexBYynMW8e2F_Q2bnbxNbW8ETnYNJLc_UC4zgGmTFpawR6FapGyxBPZG3tZjQA7FN6kCfJCTWiPQcTB_dnjW44KeCVCttmhfmpc3YU6xGTcU2UCMZpC_UQJ8PZ9L7Un74xNjU42EFJRDnGYDFLJbLhf2_VAgJ2-nUC6tbtxGCT9HaAZfHfEZ-dK4QXK3";
-
+const SECRET = process.env.SECRET; 
 export const deployState = {
     data:{
         deployed: false
@@ -112,13 +109,9 @@ export const state = {
                 });
                 break
             case "nombre":
-            await fetch(API_URL+"/clientes/buscar/nombre", {
+            await fetch(API_URL+"/clientes/buscar/nombre/"+cInfo.nombre+"/"+cInfo.apellido, {
                 mode: "cors",
                 method:"GET",
-                body: JSON.stringify({
-                    nombre: cInfo.nombre,
-                    apellido: cInfo.apellido
-                }),
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: authKey
@@ -143,7 +136,7 @@ export const state = {
             dni
         }
 
-        fetch(API_URL+"/clientes", {
+        await fetch(API_URL+"/clientes", {
             mode: "cors",
             method:"POST",
             body: JSON.stringify(newClient),
@@ -152,7 +145,14 @@ export const state = {
                 Authorization: authKey
             }
         })
-        .then((res)=>{return res.json()})
+        .then((res)=>{
+            if(res.status == 200){
+                return res.json()
+            }
+            else if(res.status == 500){
+                throw "error"
+            }
+        })  
         .then((data)=>{
             return data;
         });
@@ -198,7 +198,9 @@ export const state = {
                 Authorization: authKey
             }
         })
-        .then((res)=>{return res.json()})
+        .then((res)=>{
+            return res.json()
+        })
         .then((data)=>{
             this.setClientHorses(data)
             return data;
@@ -216,7 +218,7 @@ export const state = {
             obs
         }
 
-        fetch(API_URL+"/caballos", {
+        await fetch(API_URL+"/caballos", {
             mode: "cors",
             method:"POST",
             body: JSON.stringify(newHorse),
@@ -225,17 +227,27 @@ export const state = {
                 Authorization: authKey
             }
         })
-        .then((res)=>{return res.json()})
+        .then((res)=>{
+            if(res.status == 200){
+                return res.json()
+            }
+            else if(res.status == 500){
+                throw "error"
+            }
+        })
         .then((data)=>{
             return data;
         });
     },
     async getAllHorses(){
+        const authKey = this.sessionAuthParser();
+
         return fetch(API_URL+"/caballos",{
             mode: "cors",
             method: "GET",
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: authKey
               },
         })
         .then((res)=>{return res.json()})
@@ -244,11 +256,14 @@ export const state = {
         })
     },
     async getActiveHorses(){
+        const authKey = this.sessionAuthParser();
+
         return fetch(API_URL+"/caballos/activos/all",{
             mode: "cors",
             method: "GET",
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: authKey
               },
         })
         .then((res)=>{return res.json()})
@@ -270,7 +285,7 @@ export const state = {
             obs
         }
 
-        fetch(API_URL+"/servicio", {
+        await fetch(API_URL+"/servicio", {
             mode: "cors",
             method:"POST",
             body: JSON.stringify(newServiceData),
@@ -279,13 +294,32 @@ export const state = {
                 Authorization: authKey
             }
         })
-        .then((res)=>{return res.json()})
+        .then((res)=>{
+            if(res.status == 200){
+                return res.json()
+            }
+            else if(res.status == 500){
+                throw "error"
+            }
+        })
         .then((data)=>{
             return data;
         });
     },
     async getAllServices(){
-
+        const authKey = this.sessionAuthParser();
+        return fetch(API_URL+"/servicio",{
+            mode: "cors",
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: authKey
+              },
+        })
+        .then((res)=>{return res.json()})
+        .then((data)=>{
+            return data;
+        })
     },
     async getPendingServices(){
         const authKey = this.sessionAuthParser();
@@ -367,7 +401,13 @@ export const state = {
             }
             else{
                 console.log("Error inesperado, no se encontró token de validacion, vuelva a loguearse")
-                Router.go("/expired")
+                const deployedStatus = deployState.getState().deployed
+                if(!deployedStatus){
+                    Router.go("/expired")
+                }
+                else{
+                    Router.go("/jv-crm/expired")
+                }
             }
         };
     },

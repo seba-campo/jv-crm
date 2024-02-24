@@ -12,15 +12,19 @@ class CreateService extends HTMLElement{
     }
     clientes: any
     async connectedCallback(){
-        // Se va a ejecutar cuando se corra el component
-        // Traer todos los clientes;
         try{
             const clientes = await state.getAllClientes();
             this.clientes =  JSON.stringify(clientes);
         }
         catch{
             console.log("Sesion expirada");
-            Router.go("/expired")
+            const deployedStatus = deployState.getState().deployed;
+            if(!deployedStatus){
+                Router.go("/expired")
+            }
+            else{
+                Router.go("/jv-crm/expired")
+            }
         }
         finally{
             this.render();
@@ -240,11 +244,11 @@ class CreateService extends HTMLElement{
             flex-direction: column
         }
         
-        .success{
+        .success-div{
             display: none;
         }
 
-        .error{
+        .error-div{
             display: none;
         }
         `

@@ -7,6 +7,7 @@ const router = new Router(root);
 // Check if is deployed...
 const actualUrl = window.location.origin;
 if(actualUrl.startsWith("https://seba-campo.github.io")){
+  console.log("PROD")
   deployState.setDeployedStatus(true)
 }
 if(actualUrl.startsWith("http://localhost")){
@@ -18,10 +19,10 @@ const cs = deployState.getState();
 
 if(cs.deployed){
   router.setRoutes([
-    {path: '/jv-crm/', component: 'welcome-page'},
-    {path: '/jv-crm/', component: 'game-room-page'},
-    {path: '/jv-crm/', component: 'play-page'},
-    {path: '/jv-crm/', component: 'results-page'}
+    {path: '/jv-crm/', component: 'login-page'},
+    {path: '/jv-crm/cliente', component: 'cliente-page'},
+    {path: '/jv-crm/empresa', component: 'empresa-page'},
+    {path: '/jv-crm/expired', component: 'session-expired'}
   ]);
 }
 if(!cs.deployed){

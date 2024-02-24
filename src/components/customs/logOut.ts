@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { deployState } from "../../state";
 
 class LogOut extends HTMLElement{
     shadow = this.attachShadow({mode: "open"});
@@ -13,8 +14,6 @@ class LogOut extends HTMLElement{
         const div = document.createElement("div");
         const style = document.createElement("style");
         const titleInAttr = this.getAttribute("title")
-        console.log(titleInAttr)
-
         div.innerHTML = /*html*/`
             <div class="root">
                 <div class="div-button">
@@ -55,8 +54,14 @@ class LogOut extends HTMLElement{
         `
         
         const buttonEl = div.querySelector(".div-button") as HTMLElement;
+        const deployedStatus = deployState.getState().deployed;
         buttonEl.addEventListener("click", ()=>{
-            Router.go("/");
+            if(!deployedStatus){
+                Router.go("/");
+            }
+            else{
+                Router.go("/jv-crm/")
+            }
             localStorage.clear();
         })
 

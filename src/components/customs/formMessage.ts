@@ -1,4 +1,5 @@
 class FormMessage extends HTMLElement{
+    shadow = this.attachShadow({mode: "open"});
     constructor(){
         super();
         this.render();
@@ -7,13 +8,14 @@ class FormMessage extends HTMLElement{
         // Se va a ejecutar cuando se corra el component
     }
     render(){
+        const div = document.createElement("div");
         const style = document.createElement("style");
         const statusInAttr = this.getAttribute("status")
         const message = this.textContent;
 
         switch (statusInAttr){
             case "200":
-                this.innerHTML = /*html*/`
+                div.innerHTML = /*html*/`
                 <div class="root-msj">
                     <div class="div-msj success">
                         <p class="p">${message}</p>
@@ -22,7 +24,7 @@ class FormMessage extends HTMLElement{
                  `
                 break
             case "500":
-                this.innerHTML = /*html*/`
+                div.innerHTML = /*html*/`
                 <div class="root-msj">
                     <div class="div-msj error">
                         <p class="p">${message}</p>
@@ -68,7 +70,8 @@ class FormMessage extends HTMLElement{
             text-align: center
         }
         `
-        this.appendChild(style);
+        div.appendChild(style)
+        this.shadow.appendChild(div);
     }
 }
 

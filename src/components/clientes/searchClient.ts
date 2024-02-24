@@ -411,10 +411,235 @@ class SearchClient extends HTMLElement{
                 
             }
             else if(searchQuery.telefono.length != 0){
-                console.log("buscar x tel");
+                loaderEl.style.display = "block"
+                // limpiar state
+                // Traer info del cliente 
+                state.getClientDataBy("tel", {telefono: parseInt(searchQuery.telefono)})
+                .then(()=>{
+                    const infoDelCliente = state.getState().clientInformation.clientData;
+                    // console.log(infoDelCliente)
+                    // Formatearla en HTML
+                    var htmlClientTemplate = `
+                    <div class="tabla-cliente">
+                            <p class="table-header">Cliente</p>
+                            <table class="table" cellspacing="0" cellpadding="0">
+                                <thead class="table-head">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Estado</th>
+                                        <th>Dni</th>
+                                        <th>Telefono</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>${infoDelCliente.nombre}</td>
+                                    <td>${infoDelCliente.apellido}</td>
+                                    <td>${infoDelCliente.estado}</td>
+                                    <td>${infoDelCliente.dni}</td>
+                                    <td>${infoDelCliente.telefono}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    `
+                    // Agregarla a su container
+                    tablaClienteEl.innerHTML += htmlClientTemplate;
+
+                    // BUSCAR CABALLOS A SU NOMBRE
+                    state.getHorsesFromClient(infoDelCliente.id)
+                    .then(()=>{
+                        const clientHorsesState = state.getState().clientInformation.clientHorses;
+                        var htmlClientHorsesTemplate = `
+                            <p class="table-header">Caballos del cliente</p>
+                            <table class="table" cellspacing="0" cellpadding="0">
+                                <thead class="table-head">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Pelaje</th>
+                                        <th>Abono</th>
+                                        <th>Ingreso</th>
+                                        <th>Egreso</th>
+                                        <th>Libreta</th>
+                                        <th>Observaciones</th>
+                                    </tr>
+                                </thead>
+                                    ${
+                                        clientHorsesState.map((h)=>{
+                                            return `
+                                            <tr>
+                                                <td>${h.nombre}</td>
+                                                <td>${h.pelaje}</td>
+                                                <td>${h.abono}</td>
+                                                <td>${h.ingreso}</td>
+                                                <td>${h.egreso == null ? ' - ' : h.egreso}</td>
+                                                <td>${h.libreta}</td>
+                                                <td>${h.obs}</td>
+                                            </tr>
+                                            `
+                                        })
+                                    }     
+                            </table>
+                        `
+                        tablaCaballosEl.innerHTML += htmlClientHorsesTemplate;
+
+                        state.getServicesFromUserId(infoDelCliente.id)
+                        .then(()=>{
+                            const clientServicesState = state.getState().clientInformation.clientServices;
+                            var htmlClientHorsesTemplate = `
+                                <p class="table-header">Servicios del cliente</p>
+                                <table class="table" cellspacing="0" cellpadding="0">
+                                    <thead class="table-head">
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Subtipo</th>
+                                            <th>Costo</th>
+                                            <th>Estado</th>
+                                            <th>Fecha servicio</th>
+                                            <th>Obs</th>
+                                        </tr>
+                                    </thead>
+                                        ${
+                                            clientServicesState.map((s)=>{
+                                                return `
+                                                <tr>
+                                                    <td>${s.tipo}</td>
+                                                    <td>${s.subTipo}</td>
+                                                    <td>${s.costo}</td>
+                                                    <td>${s.estado}</td>
+                                                    <td>${s.fechaServicio}</td>
+                                                    <td>${s.obs}</td>
+                                                </tr>
+                                                `
+                                            })
+                                        }
+                                </table>
+                            `
+                            tablaServiciosEl.innerHTML += htmlClientHorsesTemplate
+                            loaderEl.style.display = "none"
+                            const generalTableEl = div.querySelectorAll(".table") as NodeList;
+                            generalTableEl.forEach((t: HTMLElement)=>{
+                                console.log(t.previousSibling.remove())
+                            })
+                        })
+                    })
+                })
             }
             else if(searchQuery.nombre.length != 0 && searchQuery.apellido.length != 0){
-                console.log("buscar x nombre");                
+                loaderEl.style.display = "block"
+                // limpiar state
+                // Traer info del cliente 
+                state.getClientDataBy("nombre", {
+                    nombre: searchQuery.nombre, 
+                    apellido: searchQuery.apellido
+                })
+                .then(()=>{
+                    const infoDelCliente = state.getState().clientInformation.clientData;
+                    // console.log(infoDelCliente)
+                    // Formatearla en HTML
+                    var htmlClientTemplate = `
+                    <div class="tabla-cliente">
+                            <p class="table-header">Cliente</p>
+                            <table class="table" cellspacing="0" cellpadding="0">
+                                <thead class="table-head">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Estado</th>
+                                        <th>Dni</th>
+                                        <th>Telefono</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>${infoDelCliente.nombre}</td>
+                                    <td>${infoDelCliente.apellido}</td>
+                                    <td>${infoDelCliente.estado}</td>
+                                    <td>${infoDelCliente.dni}</td>
+                                    <td>${infoDelCliente.telefono}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    `
+                    // Agregarla a su container
+                    tablaClienteEl.innerHTML += htmlClientTemplate;
+
+                    // BUSCAR CABALLOS A SU NOMBRE
+                    state.getHorsesFromClient(infoDelCliente.id)
+                    .then(()=>{
+                        const clientHorsesState = state.getState().clientInformation.clientHorses;
+                        var htmlClientHorsesTemplate = `
+                            <p class="table-header">Caballos del cliente</p>
+                            <table class="table" cellspacing="0" cellpadding="0">
+                                <thead class="table-head">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Pelaje</th>
+                                        <th>Abono</th>
+                                        <th>Ingreso</th>
+                                        <th>Egreso</th>
+                                        <th>Libreta</th>
+                                        <th>Observaciones</th>
+                                    </tr>
+                                </thead>
+                                    ${
+                                        clientHorsesState.map((h)=>{
+                                            return `
+                                            <tr>
+                                                <td>${h.nombre}</td>
+                                                <td>${h.pelaje}</td>
+                                                <td>${h.abono}</td>
+                                                <td>${h.ingreso}</td>
+                                                <td>${h.egreso == null ? ' - ' : h.egreso}</td>
+                                                <td>${h.libreta}</td>
+                                                <td>${h.obs}</td>
+                                            </tr>
+                                            `
+                                        })
+                                    }     
+                            </table>
+                        `
+                        tablaCaballosEl.innerHTML += htmlClientHorsesTemplate;
+
+                        state.getServicesFromUserId(infoDelCliente.id)
+                        .then(()=>{
+                            const clientServicesState = state.getState().clientInformation.clientServices;
+                            var htmlClientHorsesTemplate = `
+                                <p class="table-header">Servicios del cliente</p>
+                                <table class="table" cellspacing="0" cellpadding="0">
+                                    <thead class="table-head">
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Subtipo</th>
+                                            <th>Costo</th>
+                                            <th>Estado</th>
+                                            <th>Fecha servicio</th>
+                                            <th>Obs</th>
+                                        </tr>
+                                    </thead>
+                                        ${
+                                            clientServicesState.map((s)=>{
+                                                return `
+                                                <tr>
+                                                    <td>${s.tipo}</td>
+                                                    <td>${s.subTipo}</td>
+                                                    <td>${s.costo}</td>
+                                                    <td>${s.estado}</td>
+                                                    <td>${s.fechaServicio}</td>
+                                                    <td>${s.obs}</td>
+                                                </tr>
+                                                `
+                                            })
+                                        }
+                                </table>
+                            `
+                            tablaServiciosEl.innerHTML += htmlClientHorsesTemplate
+                            loaderEl.style.display = "none"
+                            const generalTableEl = div.querySelectorAll(".table") as NodeList;
+                            generalTableEl.forEach((t: HTMLElement)=>{
+                                console.log(t.previousSibling.remove())
+                            })
+                        })
+                    })
+                })            
             }
             else{
                 console.log("no hay search")
