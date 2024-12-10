@@ -18,6 +18,9 @@ class AdminMainComponent extends HTMLElement{
     render(){
         const div = document.createElement("div");
         const style = document.createElement("style");
+        const chevRight = require("url:../assets/chevron-right.svg");
+        const chevDown = require("url:../assets/chevron-down.svg");
+
 
         div.innerHTML = /*html*/`
         <div class="root">
@@ -31,7 +34,7 @@ class AdminMainComponent extends HTMLElement{
                     <div class="option clientes" id="1">
                         <div class="option-wrapper">
                             <p>Clientes</p>
-                            <p>></p>
+                            <img class="chev-clientes" src="${chevRight}">
                         </div>
                         <div class="clientes-options extras">
                             <div class="agregar-cliente">
@@ -49,7 +52,7 @@ class AdminMainComponent extends HTMLElement{
                     <div class="option caballos" id="0">
                         <div class="option-wrapper">
                             <p>Caballos</p>
-                            <p>></p>                          
+                            <img class="chev-caballos" src="${chevRight}">                          
                         </div>
                         <div class="caballos-options extras">
                             <div class="crear-caballo">
@@ -67,7 +70,7 @@ class AdminMainComponent extends HTMLElement{
                     <div class="option servicios" id="2">
                         <div class="option-wrapper">
                             <p>Servicios</p>
-                            <p>></p>
+                            <img class="chev-servicios" src="${chevRight}">
                         </div>
                         <div class="servicios-options extras">
                             <div class="crear-servicio">
@@ -175,16 +178,25 @@ class AdminMainComponent extends HTMLElement{
         const extraOptionsClientes = div.querySelector(".clientes-options") as HTMLDivElement
         const extraOptionsServicios = div.querySelector(".servicios-options") as HTMLDivElement
         const optionsBar =  div.querySelector(".bar-options") as HTMLDivElement;
+        
+        const chevClientes = div.querySelector(".chev-clientes") as HTMLImageElement;
+        const chevCaballos = div.querySelector(".chev-caballos") as HTMLImageElement;
+        const chevServicios = div.querySelector(".chev-servicios") as HTMLImageElement;
 
         caballosOption.addEventListener("click", ()=>{
             caballosOption.classList.add("option-selected");
             clientesOption.classList.remove("option-selected");
             serviciosOption.classList.remove("option-selected");
+
             // MOSTRAR LAS OTRAS OPCIONES
             extraOptionsCaballos.style.display = "block";
             extraOptionsClientes.style.display = "none";
             extraOptionsServicios.style.display = "none";
             // CAMBIAR EL AFTER
+            chevCaballos.src = chevDown;
+            // 
+            chevClientes.src = chevRight;
+            chevServicios.src = chevRight;
 
         })
         clientesOption.addEventListener("click", ()=>{
@@ -195,6 +207,11 @@ class AdminMainComponent extends HTMLElement{
             extraOptionsCaballos.style.display = "none";
             extraOptionsClientes.style.display = "block";
             extraOptionsServicios.style.display = "none";
+            // CAMBIAR EL AFTER
+            chevClientes.src = chevDown;
+            // 
+            chevCaballos.src = chevRight;
+            chevServicios. src = chevRight;
         })
         serviciosOption.addEventListener("click", ()=>{
             caballosOption.classList.remove("option-selected");
@@ -204,6 +221,11 @@ class AdminMainComponent extends HTMLElement{
             extraOptionsCaballos.style.display = "none";
             extraOptionsClientes.style.display = "none";
             extraOptionsServicios.style.display = "block";
+            // CAMBIAR EL AFTER
+            chevServicios.src = chevDown;
+            // 
+            chevCaballos.src = chevRight;
+            chevClientes.src = chevRight;
         })
 
 

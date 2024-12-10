@@ -3,8 +3,8 @@ import { Horse } from "./types";
 import { Router } from "@vaadin/router";
 import { error } from "console";
 
-export const API_URL = process.env.PROD_API_URL;
 const SECRET = process.env.SECRET; 
+export const API_URL = process.env.PROD_API_URL;
 export const deployState = {
     data:{
         deployed: false
